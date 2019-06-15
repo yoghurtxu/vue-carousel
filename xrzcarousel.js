@@ -16,20 +16,28 @@ new Vue({
         times:null,//定时器
         isCarousel:false,//是否鼠标移入暂停轮播
         leaveToClass:"",//轮播图片离开时的动画，不同方向，动画不同
-        interval:1000//每张图片的间隔空隙
+        interval:3000,//每张图片的间隔空隙,
+        timer:null,//定时器
     },
     methods:{
         carouselAnimate:function () {//轮播动画
             if(!this.isCarousel){this.move(1);}//如果没有鼠标移入暂停轮播，则轮播下一张图
-            console.log(this.active ===1)
+            // console.log(this.active ===1)
             if(this.active  ===1){
                 this.interval=3000;
             }else {
-                this.interval=3000;
+                this.interval=8000;
             }
-            setTimeout(this.carouselAnimate.bind(this),this.interval)
+            // console.log(this.interval)
+            this.timer=setTimeout(this.carouselAnimate.bind(this),this.interval)
         },
         move:function (direction,index) {//direction为轮播方向，正数为右，负数为左。index为当前轮播图
+            // console.log(this.active,index)
+            if (index !== void 0 && this.active !==index){
+                clearTimeout(this.timer);
+                this.carouselAnimate()
+
+            }
             var num=this.active;
             num=index!==undefined?index:num+direction;
 
